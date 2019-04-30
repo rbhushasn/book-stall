@@ -20,14 +20,6 @@ class Header extends Component {
             <li
               className={'nav-item'}>
               <Link
-                to={'/Products'}
-                className={'nav-link'}>
-                {'Products'}
-              </Link>
-            </li>
-            <li
-              className={'nav-item'}>
-              <Link
                 to={'/Add'}
                 className={'nav-link'}>
                 {'Add Product'}
@@ -38,7 +30,7 @@ class Header extends Component {
               <Link
                 to={'/Cart'}
                 className={'nav-link'}>
-                {`Cart (${products.filter((p)=> { return p.quantity; }).length})`}
+                {`Cart (${products.filter((p)=> { return p.description; }).length})`}
               </Link>
             </li>
           </ul>

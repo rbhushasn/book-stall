@@ -9,30 +9,20 @@ class Add extends Component {
   constructor(props) {
     super(props);
     let name = '',
-      price = '';
+    author = '',
+    description=''
     let { edit } = props;
     if (edit) {
       name = edit.name;
-      price = edit.price;
+      author = edit.author;
+      description= edit.description;
     }
     this.state = {
       name,
-      price
+      author,
+      description
     };
   };
-
-  // componentWillUpdate(newProps) {
-  //   let { edit } = this.props;
-  //   if (
-  //     newProps.edit !== null &&
-  //     edit === null
-  //   ) {
-  //     this.setState({
-  //       name: newProps.edit.name,
-  //       price: newProps.edit.price
-  //     });
-  //   }
-  // };
 
   onChangeForm(f, { target }) {
     this.setState({
@@ -42,65 +32,88 @@ class Add extends Component {
 
   onAdd(e) {
     e.preventDefault();
-    let { name, price } = this.state,
+    let { name, author,description } = this.state,
       { edit } = this.props;
-    if (!name || !price) {
-      alert('Product Name and Price are required!');
+    if (!name || !author||! description) {
+      alert('Product Name,author and description are required!');
     }
     if (edit) {
       this.props.updateProduct({
         id: edit.id,
-        name, price
+        name, author,description
       });
     } else {
       this.props.onAdd({
         name,
-        price,
-        quantity: 0
+        author,
+        description
       });
     }
     this.setState({
       name: '',
-      price: ''
+      author: '',
+      description:''
     });
     ReactDOM.findDOMNode(this.refs.name).focus();
   };
 
   render() {
-    let { name, price } = this.state,
+    let { name, author,description } = this.state,
       { edit } = this.props;
     return (
       <form
         onSubmit={this.onAdd.bind(this)}>
         <div
-          className={'form-row'}>
+          className={'form-group'}>
 
           <div
             className={'form-group col-md-5'}>
+            <label>Book Name </label>
             <input
               ref={'name'}
               autoFocus
               value={name}
-              onChange={this.onChangeForm.bind(this, 'name')}
+              onChange={this.onChangeForm.bind(this,'name')}
               className={'form-control'}
               type={'text'}
               placeholder={'Product Name ..'}
             />
           </div>
-
           <div
             className={'form-group col-md-5'}>
+            <label>Book Author </label>
             <input
-              onChange={this.onChangeForm.bind(this, 'price')}
-              value={price}
+            ref={'author'}
+            autoFocus
+              onChange={this.onChangeForm.bind(this,'author')}
+              value={author}
               className={'form-control'}
-              type={'number'}
-              placeholder={'Product Price ..'}
+              type={'text'}
+              placeholder={'Book Author..'}
             />
           </div>
 
           <div
-            className={'form-group col-md-2'}>
+            className={'form-group col-md-5'}>
+            <label>Book Description </label>
+            <input
+            ref={'description'}
+            autoFocus
+            onChange={this.onChangeForm.bind(this,'description')}
+              value={description}
+              className={'form-control'}
+              type={'text'}
+              placeholder={'Product description ..'}
+            />
+          </div>
+
+          <div
+            className={'btn-group btn-group-toggle'}>
+            <button
+              className={'btn btn-secondary btn-block '}
+              type={'submit'}>
+             Cancle
+            </button>
             <button
               className={'btn btn-primary btn-block'}
               type={'submit'}>

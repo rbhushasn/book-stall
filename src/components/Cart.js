@@ -1,27 +1,47 @@
 import React, { Component } from 'react';
 import {connect} from "react-redux";
 
-import { changeQuantity } from 'actions/products/';
-import Quantity from 'components/Quantity';
+import { deleteProduct } from 'actions/products/';
+import { updateEdit } from 'actions/edit/';
+
 
 class CartItem extends Component {
+  
+  onEdit(product) {
+    this.props.onEdit(product);
+  };
+
+  onDelete(product) {
+    this.props.onDelete(product);
+  };
   render() {
     let { product } = this.props,
-      { id, name, price, quantity } = product;
+      { id, name, author, description } = product;
     return(
       <tr>
         <td>{id}</td>
         <td>{name}</td>
-        <td>{`Rs. ${price}/-`}</td>
-        <td
-          className={'text-center'}>
-            <Quantity
-              product={product}
-              changeQuantity={this.props.changeQuantity}
-            />
-        </td>
+        <td>{author}</td>
+        <td>{description}</td>
         <td>
-          {`Rs. ${(price * quantity)}/-`}
+        <button
+          onClick={this.onDelete.bind(this)}
+          className={'btn btn-primary btn-sm float-right'}
+          type={'button'}>
+          {'Add to Cart'}
+        </button>
+        <button
+          onClick={this.onDelete.bind(this, product)}
+          className={'btn btn-danger btn-sm float-right'}
+          type={'button'}>
+          {'Remove'}
+        </button>
+        <button
+          onClick={this.onEdit.bind(this, product)}
+          type={'button'}
+          className={'btn btn-dark btn-sm float-right'}>
+          Edit
+        </button>
         </td>
       </tr>
     );
@@ -31,11 +51,8 @@ class CartItem extends Component {
 class Cart extends Component {
   render() {
     let { products } = this.props;
-    products = products.filter((p)=> { return p.quantity; });
-    let total = 0;
-    for (let p of products) {
-      total += (p.price * p.quantity);
-    };
+    products = products.filter((p)=> { return p.description; });
+   
     return (
       <table
         className={'table table-bordered mb-3'}>
@@ -43,9 +60,9 @@ class Cart extends Component {
           <tr>
             <th>{'#Id'}</th>
             <th>{'Name'}</th>
-            <th>{'Price'}</th>
-            <th>{'Quantity'}</th>
-            <th>{'Total'}</th>
+            <th>{'Author'}</th>
+            <th>{'Description'}</th>
+            <th>{'Action'}</th>
           </tr>
         </thead>
         <tbody>
@@ -53,19 +70,12 @@ class Cart extends Component {
             <CartItem
               key={k}
               product={product}
-              changeQuantity={this.props.changeQuantity}
+              onEdit={this.props.onEdit}
+            onDelete={this.props.onDelete}
             />
           )}
           {products.length ?
             <tr>
-              <th
-                className={'text-right'}
-                colSpan={'4'}>
-                {'Total:'}
-              </th>
-              <th>
-                {`Rs. ${total}/-`}
-              </th>
             </tr>
             :
             <tr>
@@ -88,6 +98,7 @@ export default connect((state) => {
     }
   },
   {
-    changeQuantity
+    onDelete: deleteProduct,
+    onEdit: updateEdit
   }
 )(Cart);

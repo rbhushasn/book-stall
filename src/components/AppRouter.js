@@ -7,8 +7,6 @@ import 'scss/style.scss';
 
 import store from 'utils/store';
 import history from 'utils/history';
-
-import List from 'components/List';
 import Add from 'components/Add';
 import Cart from 'components/Cart';
 import Header from 'components/Header';
@@ -34,11 +32,6 @@ class App extends Component {
                       component={Cart}
                       exact={true}
                       path={'/Cart'}
-                    />
-                    <Route
-                      component={List}
-                      exact={true}
-                      path={'/Products'}
                     />
                     <Route
                       component={Add}

@@ -1,8 +1,8 @@
-export default function(state = [{ id: 1, name: 'Procuts 1.0', price: 10, quantity: 1 }], action) {
+export default function(state = [{ id: 1, name: 'Book1', author: 'Ravi bhushan', description:'this is science book' }], action) {
     let products = JSON.parse(JSON.stringify(state));
-
+    console.log("action : ",action.type);
     switch (action.type) {
-
+     
         case 'ADD_PRODUCT': {
           let product = action.payload;
           product.id = Math.floor(Math.random() * 10000);
@@ -10,22 +10,12 @@ export default function(state = [{ id: 1, name: 'Procuts 1.0', price: 10, quanti
           return products;
         };
 
-        case 'CHANGE_QUANTITY': {
-            let { id, o } = action.payload,
-                product = products.filter((p)=> { return p.id === id; })[0];
-            if (o === 'ADD') {
-              product.quantity += 1;
-            } else {
-              product.quantity -= 1;
-            }
-            return products;
-        };
-
         case 'UPDATE_PRODUCT': {
             let product = action.payload;
+            console.log(product);
             products = products.map((p)=> {
               if (p.id === product.id) {
-                product.quantity = p.quantity;
+                p.description= product.description ;
                 return product;
               }
               return p;

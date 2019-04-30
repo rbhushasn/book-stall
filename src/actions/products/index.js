@@ -5,13 +5,6 @@ function addProduct(payload) {
     };
 };
 
-function changeQuantity(id, o) {
-    return {
-        type: 'CHANGE_QUANTITY',
-        payload: { id, o }
-    };
-};
-
 function updateProduct(payload) {
     return {
         type: 'UPDATE_PRODUCT',
@@ -37,7 +30,6 @@ function deleteProduct(payload) {
 
 export {
     addProduct,
-    changeQuantity,
     updateProduct,
     deleteProduct
 };
